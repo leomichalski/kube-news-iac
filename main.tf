@@ -28,21 +28,17 @@ resource "digitalocean_kubernetes_cluster" "k8s_kubenews" {
   version = "1.23.9-do.0"
 
   node_pool {
-    name       = "worker-pool"
+    # name       = "worker-pool"
+    # size       = "s-1vcpu-2gb"
+    # node_count = 2
+    name       = "autoscale-worker-pool1"
     size       = "s-1vcpu-2gb"
-    node_count = 1
+    auto_scale = true
+    min_nodes  = 1
+    max_nodes  = 2
+
   }
 }
-
-# node_pool 1
-# resource "digitalocean_kubernetes_node_pool" "node_pool1" {
-#   cluster_id = "digitalocean_kubernetes_cluster.k8s_kubenews.id"
-#   name       = "autoscale-worker-pool1"
-#   size       = "s-1vcpu-2gb"
-#   auto_scale = true
-#   min_nodes  = 1
-#   max_nodes  = 2
-# }
 
 # # mostrar endpoint apos rodar "kubectl apply"
 # # obs: nao usar output para mostrar senhas nem outros dados sensiveis
